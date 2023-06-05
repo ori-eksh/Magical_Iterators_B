@@ -1,19 +1,22 @@
 #include "MagicalContainer.hpp"
+#include <cmath>
 namespace ariel
 {
     void MagicalContainer::addElement(int element)
     {
-        auto f = std::find(Numbers.begin(), Numbers.end(), element);
-        if (f != Numbers.end())
+        auto f = Numbers.insert(element);
+
+        if (!f.second)
+        {
             return;
-        containerSize++;
-        Numbers.push_back(element); // the numbers
-        int *elementPtr = &Numbers.back();
+        }
+
+        const int *elementPtr = &(*f.first);
 
         // the prime
         if (isPrime(element))
         {
-            std::vector<int *> primesTemp;
+            std::vector<const int *> primesTemp;
             while (primesNumbers.empty() == false && *primesNumbers.back() > element)
             {
                 primesTemp.push_back(primesNumbers.back());
@@ -29,7 +32,7 @@ namespace ariel
             }
         }
         // the growsUpNumbers
-        std::vector<int *> growsTemp;
+        std::vector<const int *> growsTemp;
         while (growsUpNumbers.empty() == false && *growsUpNumbers.back() > element)
         {
             growsTemp.push_back(growsUpNumbers.back());
@@ -46,7 +49,7 @@ namespace ariel
 
         // the cross numbers
         SideCrossNum.push_back(elementPtr);
-        std::vector<int *> output;
+        std::vector<const int *> output;
 
         // Check if the input vector has only one element
         if (SideCrossNum.size() == 1)
@@ -80,68 +83,30 @@ namespace ariel
         {
             throw std::runtime_error("not exist");
         }
-        int *ptr = &(*f);
+        const int *ptr = &(*f);
+
         // Remove the element from growsUpNumbers list
-        for (auto it = growsUpNumbers.begin(); it != growsUpNumbers.end();)
-        {
-            if (*it == ptr)
-            {
-                it = growsUpNumbers.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
-        }
+        auto it1 = std::find(growsUpNumbers.begin(), growsUpNumbers.end(), ptr);
+        growsUpNumbers.erase(it1);
 
         // Remove the element from SideCrossNum vector
-        for (auto it = SideCrossNum.begin(); it != SideCrossNum.end();)
-        {
-            if (*it == ptr)
-            {
-                it = SideCrossNum.erase(it);
-                break;
-            }
-            else
-            {
-                ++it;
-            }
-        }
+        auto it2 = std::find(SideCrossNum.begin(), SideCrossNum.end(), ptr);
+        SideCrossNum.erase(it2);
 
         // Remove the element from primesNumbers vector
-        for (auto it = primesNumbers.begin(); it != primesNumbers.end();)
+        if (isPrime(element))
         {
-            if (*it == ptr)
-            {
-                it = primesNumbers.erase(it);
-                break;
-            }
-            else
-            {
-                ++it;
-            }
+            auto it3 = std::find(primesNumbers.begin(), primesNumbers.end(), ptr);
+            primesNumbers.erase(it3);
         }
 
         // Remove the element from Numbers vector
-        for (auto it = Numbers.begin(); it != Numbers.end();)
-        {
-            if (*it == element)
-            {
-                it = Numbers.erase(it);
-                break;
-            }
-            else
-            {
-                ++it;
-            }
-        }
-
-        containerSize--;
+        Numbers.erase(f);
     }
 
     size_t MagicalContainer::size() const
     {
-        return containerSize;
+        return Numbers.size();
     }
 
     bool MagicalContainer::isPrime(int number)
@@ -151,7 +116,7 @@ namespace ariel
             return false;
         }
 
-        for (int i = 2; i <= (number); ++i)
+        for (int i = 2; i <= sqrt(number); ++i)
         {
             if (number % i == 0)
             {

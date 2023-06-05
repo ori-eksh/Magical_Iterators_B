@@ -1,6 +1,7 @@
 #pragma once
 #include "Iterator.hpp"
 #include <iostream>
+#include <set>
 #include <vector>
 #include <cmath>
 #include <stdio.h>
@@ -11,17 +12,13 @@ namespace ariel
     class MagicalContainer
     {
     private:
-        std::vector<int> Numbers;
-        std::vector<int *> growsUpNumbers;
-        std::vector<int *> primesNumbers;
-        std::vector<int *> SideCrossNum;
-
-        size_t containerSize;
-        size_t crossIndex;
-        bool isIncreasing;
+        std::set<int> Numbers;
+        std::vector<const int *> growsUpNumbers;
+        std::vector<const int *> primesNumbers;
+        std::vector<const int *> SideCrossNum;
 
     public:
-        MagicalContainer() : containerSize(0), crossIndex(0), isIncreasing(true) {}
+        MagicalContainer() {}
         void addElement(int element);
         void removeElement(int element);
         size_t size() const;
@@ -62,7 +59,7 @@ namespace ariel
 
             AscendingIterator end() const
             {
-                return AscendingIterator(container, container.size());
+                return AscendingIterator(container, container.growsUpNumbers.size());
             }
         };
         /******************/
@@ -100,7 +97,7 @@ namespace ariel
 
             PrimeIterator end() const
             {
-                return PrimeIterator(container, container.size());
+                return PrimeIterator(container, container.primesNumbers.size());
             }
         };
 
@@ -141,7 +138,7 @@ namespace ariel
 
             SideCrossIterator end() const
             {
-                return SideCrossIterator(container, container.size());
+                return SideCrossIterator(container, container.SideCrossNum.size());
             }
         };
     };
