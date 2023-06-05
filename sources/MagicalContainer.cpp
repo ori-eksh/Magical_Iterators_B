@@ -80,15 +80,61 @@ namespace ariel
         {
             throw std::runtime_error("not exist");
         }
+        int *ptr = &(*f);
         // Remove the element from growsUpNumbers list
-        growsUpNumbers.erase(std::remove(growsUpNumbers.begin(), growsUpNumbers.end(), &element), growsUpNumbers.end());
+        for (auto it = growsUpNumbers.begin(); it != growsUpNumbers.end();)
+        {
+            if (*it == ptr)
+            {
+                it = growsUpNumbers.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
+        }
 
-        // Remove the element from crosNumbers vector
-        SideCrossNum.erase(std::remove(SideCrossNum.begin(), SideCrossNum.end(), &element), SideCrossNum.end());
+        // Remove the element from SideCrossNum vector
+        for (auto it = SideCrossNum.begin(); it != SideCrossNum.end();)
+        {
+            if (*it == ptr)
+            {
+                it = SideCrossNum.erase(it);
+                break;
+            }
+            else
+            {
+                ++it;
+            }
+        }
 
         // Remove the element from primesNumbers vector
-        primesNumbers.erase(std::remove(primesNumbers.begin(), primesNumbers.end(), &element), primesNumbers.end());
-        Numbers.erase(std::remove(Numbers.begin(), Numbers.end(), element), Numbers.end());
+        for (auto it = primesNumbers.begin(); it != primesNumbers.end();)
+        {
+            if (*it == ptr)
+            {
+                it = primesNumbers.erase(it);
+                break;
+            }
+            else
+            {
+                ++it;
+            }
+        }
+
+        // Remove the element from Numbers vector
+        for (auto it = Numbers.begin(); it != Numbers.end();)
+        {
+            if (*it == element)
+            {
+                it = Numbers.erase(it);
+                break;
+            }
+            else
+            {
+                ++it;
+            }
+        }
 
         containerSize--;
     }
@@ -105,7 +151,7 @@ namespace ariel
             return false;
         }
 
-        for (int i = 2; i <= std::sqrt(number); ++i)
+        for (int i = 2; i <= (number); ++i)
         {
             if (number % i == 0)
             {
@@ -127,7 +173,7 @@ namespace ariel
             throw std::runtime_error("Iterator out of range");
         }
 
-        ++now;
+        now++;
         return *this;
     }
     bool MagicalContainer::AscendingIterator::operator!=(const Iterator &other) const

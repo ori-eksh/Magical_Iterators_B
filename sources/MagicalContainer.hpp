@@ -80,16 +80,16 @@ namespace ariel
             ~PrimeIterator() override = default;
             PrimeIterator &operator++();
             int operator*() const;
-            bool operator!=(const Iterator &) const override;
+            bool operator!=(const Iterator &other) const override;
             bool operator!=(const PrimeIterator &) const;
 
-            bool operator==(const Iterator &) const override;
+            bool operator==(const Iterator &other) const override;
             bool operator==(const PrimeIterator &) const;
 
-            bool operator<(const Iterator &) const override;
+            bool operator<(const Iterator &other) const override;
             bool operator<(const PrimeIterator &) const;
 
-            bool operator>(const Iterator &) const override;
+            bool operator>(const Iterator &other) const override;
             bool operator>(const PrimeIterator &) const;
             PrimeIterator &operator=(const PrimeIterator &other);
             PrimeIterator &operator=(PrimeIterator &&other) noexcept;
