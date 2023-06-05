@@ -75,7 +75,11 @@ namespace ariel
 
     void MagicalContainer::removeElement(int element)
     {
-
+        auto f = std::find(Numbers.begin(), Numbers.end(), element);
+        if (f == Numbers.end())
+        {
+            throw std::runtime_error("not exist");
+        }
         // Remove the element from growsUpNumbers list
         growsUpNumbers.erase(std::remove(growsUpNumbers.begin(), growsUpNumbers.end(), &element), growsUpNumbers.end());
 
