@@ -48,32 +48,26 @@ namespace ariel
         }
 
         // the cross numbers
-        SideCrossNum.push_back(elementPtr);
-        std::vector<const int *> output;
 
-        // Check if the input vector has only one element
-        if (SideCrossNum.size() == 1)
+        SideCrossNum.clear();
+        if (growsUpNumbers.size() == 1)
         {
-            output.push_back(SideCrossNum.at(0));
-            SideCrossNum = output;
+            SideCrossNum.push_back(growsUpNumbers.back());
             return;
         }
-
-        int start = 0;                     // Index for the first vector
-        int end = SideCrossNum.size() - 1; // Index for the last vector
+        size_t start = 0;
+        size_t end = growsUpNumbers.size() - 1;
 
         while (start <= end)
         {
-            output.push_back(SideCrossNum.at((size_t)start)); // Copy first element
+            SideCrossNum.push_back(growsUpNumbers.at(start));
             if (start != end)
             {
-                output.push_back(SideCrossNum.at((size_t)end)); // Copy last element if start and end are different
+                SideCrossNum.push_back(growsUpNumbers.at(end));
             }
-            start++; // Increment start index
-            end--;   // Decrement end index
+            start++;
+            end--;
         }
-
-        SideCrossNum = output;
     }
 
     void MagicalContainer::removeElement(int element)
