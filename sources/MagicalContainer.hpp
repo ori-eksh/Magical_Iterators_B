@@ -35,6 +35,10 @@ namespace ariel
             AscendingIterator(MagicalContainer &other) : container(other), now(0) {}
 
             AscendingIterator(MagicalContainer &other, size_t index) : container(other), now(index) {}
+            AscendingIterator(const AscendingIterator &other) : container(other.container), now(other.now) {}
+
+            // Add move constructor definition
+            AscendingIterator(AscendingIterator &&other) noexcept : container(other.container), now(other.now) {}
 
             ~AscendingIterator() override = default;
             AscendingIterator &operator++();
@@ -73,6 +77,10 @@ namespace ariel
             PrimeIterator(MagicalContainer &other) : container(other), now(0) {}
 
             PrimeIterator(MagicalContainer &other, size_t index) : container(other), now(index) {}
+            PrimeIterator(const PrimeIterator &other) : container(other.container), now(other.now) {}
+
+            // Add move constructor definition
+            PrimeIterator(PrimeIterator &&other) noexcept : container(other.container), now(other.now) {}
 
             ~PrimeIterator() override = default;
             PrimeIterator &operator++();
@@ -113,7 +121,10 @@ namespace ariel
             SideCrossIterator(MagicalContainer &other) : container(other), now(0) {}
 
             SideCrossIterator(MagicalContainer &other, size_t index) : container(other), now(index) {}
+            SideCrossIterator(const SideCrossIterator &other) : container(other.container), now(other.now) {}
 
+            // Add move constructor definition
+            SideCrossIterator(SideCrossIterator &&other) noexcept : container(other.container), now(other.now) {}
             ~SideCrossIterator() override = default;
 
             SideCrossIterator &operator++();
